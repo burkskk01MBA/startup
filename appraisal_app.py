@@ -82,4 +82,4 @@ def app():
     st.markdown("This web app is using data from the House Canary API. For more information, please visit their [website](https://www.housecanary.com/).")
 
 if __name__ == "__main__":
-    app()```
+    app()``
