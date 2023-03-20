@@ -22,7 +22,7 @@ def display_house_data(house_data):
     try:
         # Display address
         st.subheader("Address")
-        property_data = house_data['result']['property']
+        property_data = house_data['property/details']['result']['property']
         address_data = property_data['address']
         st.markdown(f"{address_data['line1']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
 
@@ -51,6 +51,7 @@ def display_house_data(house_data):
 
     except KeyError as e:
         st.error(f"Failed to display data. Missing field: {e}")
+
 
 
 st.title("House Canary Web App")
