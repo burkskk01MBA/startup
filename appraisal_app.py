@@ -16,17 +16,29 @@ def get_house_data(address, zipcode, api_key, api_secret):
         st.error(f"Failed to fetch data. Status code: {response.status_code}. Response text: {response.text}")
         return None
 
-st.title("House Canary Web App")
+def display_house_data(house_data):
+    st.header("Property Details")
 
-address = st.text_input("Enter the address:")
-zipcode = st.text_input("Enter the zipcode:")
+    # Display address
+    st.subheader("Address")
+    st.markdown(f"{house_data['property']['address']['line1']}, {house_data['property']['address']['city']}, {house_data['property']['address']['state']} {house_data['property']['address']['zipcode']}")
 
-api_key = "test_QXKKXWIHFL71J1D524Z1"
-api_secret = "xVRYZEOZqBmheOYmFJsFDphFd6vFTRGL"
+    # Display property details in columns
+    col1, col2 = st.columns(2)
 
-if st.button("Fetch Data"):
-    house_data = get_house_data(address, zipcode, api_key, api_secret)
-    if house_data:
-        st.write(house_data)
-    else:
-        st.error("Failed to fetch data. Please try again.")
+    with col1:
+        st.subheader("Property Type")
+        st.write(house_data['property']['property_type'])
+
+        st.subheader("Bedrooms")
+        st.write(house_data['property']['bedrooms'])
+
+        st.subheader("Bathrooms")
+        st.write(house_data['property']['bathrooms'])
+
+    with col2:
+        st.subheader("Year Built")
+        st.write(house_data['property']['year_built'])
+
+        st.subheader("Living Area (sq.ft)")
+        st
