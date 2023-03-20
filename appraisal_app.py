@@ -4,10 +4,12 @@ import requests
 
 def get_house_data(address, zip_code, api_key, api_secret):
     # Make API request to HouseCanary endpoint and return result
-    url = f"https://api.housecanary.com/v2/property/details?address={address}&zipcode={zip_code}"
+    url = f"https://api.housecanary.com/v2/property/details?property={address}&zipcode={zip_code}"
     headers = {"HouseCanary-Api-Key": api_key, "HouseCanary-Api-Secret": api_secret}
     response = requests.get(url, headers=headers)
-    return response.json()["property/details"][0]["result"]
+    response_json = response.json()
+    st.write(response_json)  # Display the entire API response
+    return response_json["property/details"][0]["result"]
 
 
 # Main Streamlit app code
