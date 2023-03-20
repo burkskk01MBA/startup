@@ -5,7 +5,7 @@ import base64
 
 def get_house_data(address, zip_code, api_key, api_secret):
     # Make API request to HouseCanary endpoint and return result
-    url = f"https://api.housecanary.com/v2/property/details?property={address}&zipcode={zip_code}"
+    url = f"https://api.housecanary.com/v2/property/details?address={address}&zipcode={zip_code}"
     auth_str = f"{api_key}:{api_secret}"
     auth_bytes = auth_str.encode('ascii')
     auth_base64 = base64.b64encode(auth_bytes).decode('ascii')
