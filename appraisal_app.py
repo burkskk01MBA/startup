@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+import base64
 
 
 def get_house_data(address, zipcode, api_key, api_secret):
