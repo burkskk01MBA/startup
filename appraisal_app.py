@@ -18,20 +18,40 @@ def get_house_data(address, zipcode, api_key, api_secret):
 
 # Function to display data
 def display_house_data(house_data):
-    st.subheader("Property Details")
+    st.header("Property Details")
 
     try:
         # Display address
-        st.write(f"**Address:** {house_data['address_info']['address']}, {house_data['address_info']['city']}, {house_data['address_info']['state']} {house_data['address_info']['zipcode']}")
+        st.subheader("Address")
+        property_data = house_data['property']
+        address_data = house_data['address_info']
+        st.markdown(f"{address_data['address']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
 
-        # Display property details
-        st.write(f"**Property Type:** {house_data['property']['property_type']}")
-        st.write(f"**Bedrooms:** {house_data['property'].get('number_of_bedrooms', 'N/A')}")
-        st.write(f"**Bathrooms:** {house_data['property'].get('total_bath_count', 'N/A')}")
-        st.write(f"**Year Built:** {house_data['property'].get('year_built', 'N/A')}")
-        st.write(f"**Living Area (sq.ft):** {house_data['property'].get('building_area_sq_ft', 'N/A')}")
-        st.write(f"**Lot Area (sq.ft):** {house_data['property'].get('site_area_acres', 'N/A')}")
-        st.write(f"**Assessed Value:** {house_data['property'].get('assessed_value', 'N/A')}")
+        # Display property details in columns
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.subheader("Property Type")
+            st.write(property_data['property_type'])
+
+            st.subheader("Bedrooms")
+            st.write(property_data.get('number_of_bedrooms', 'N/A'))
+
+            st.subheader("Bathrooms")
+            st.write(property_data.get('total_bath_count', 'N/A'))
+
+            st.subheader("Year Built")
+            st.write(property_data.get('year_built', 'N/A'))
+
+        with col2:
+            st.subheader("Living Area (sq.ft)")
+            st.write(property_data.get('building_area_sq_ft', 'N/A'))
+
+            st.subheader("Lot Area (sq.ft)")
+            st.write(property_data.get('site_area_acres', 'N/A'))
+
+            st.subheader("Assessed Value")
+            st.write(property_data.get('assessed_value', 'N/A'))
 
     except KeyError as e:
         st.error(f"Failed to display data. Missing field: {e}")
