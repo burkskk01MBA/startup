@@ -41,4 +41,22 @@ def display_house_data(house_data):
         st.write(house_data['property']['year_built'])
 
         st.subheader("Living Area (sq.ft)")
-        st
+        st.write(house_data['property']['living_area'])
+
+        st.subheader("Lot Area (sq.ft)")
+        st.write(house_data['property']['lot_area'])
+
+st.title("House Canary Web App")
+
+address = st.text_input("Enter the address:")
+zipcode = st.text_input("Enter the zipcode:")
+
+api_key = "test_QXKKXWIHFL71J1D524Z1"
+api_secret = "xVRYZEOZqBmheOYmFJsFDphFd6vFTRGL"
+
+if st.button("Fetch Data"):
+    house_data = get_house_data(address, zipcode, api_key, api_secret)
+    if house_data:
+        display_house_data(house_data)
+    else:
+        st.error("Failed to fetch data. Please try again.")
