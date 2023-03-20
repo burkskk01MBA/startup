@@ -59,3 +59,4 @@ if get_data_button:
         display_house_data(house_data)
     except Exception as e:
         st.error(f"Error: Could not retrieve property details. {str(e)}")
+        
