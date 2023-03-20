@@ -1,11 +1,15 @@
 import streamlit as st
 import requests
+import base64
 
 
 def get_house_data(address, zip_code, api_key, api_secret):
     # Make API request to HouseCanary endpoint and return result
     url = f"https://api.housecanary.com/v2/property/details?property={address}&zipcode={zip_code}"
-    headers = {"HouseCanary-Api-Key": api_key, "HouseCanary-Api-Secret": api_secret}
+    auth_str = f"{api_key}:{api_secret}"
+    auth_bytes = auth_str.encode('ascii')
+    auth_base64 = base64.b64encode(auth_bytes).decode('ascii')
+    headers = {"Authorization": f"Basic {auth_base64}"}
     response = requests.get(url, headers=headers)
     response_json = response.json()
     st.write(response_json)  # Display the entire API response
