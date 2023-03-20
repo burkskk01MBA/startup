@@ -17,7 +17,7 @@ def get_house_data(address, zip_code, api_key, api_secret):
 
 
 # Main Streamlit app code
-st.title("HouseCanary Property Details")
+st.title("Home Equalizer Appraisal App")
 
 # Get user input
 address = st.text_input("Enter Address")
