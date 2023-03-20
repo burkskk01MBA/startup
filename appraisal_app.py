@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 import base64
 
-
 def get_house_data(address, zipcode, api_key, api_secret):
     url = f"https://api.housecanary.com/v2/property/details?address={address}&zipcode={zipcode}"
     headers = {
@@ -14,9 +13,10 @@ def get_house_data(address, zipcode, api_key, api_secret):
     if response.status_code == 200:
         return response.json()
     else:
+        st.error(f"Failed to fetch data. Status code: {response.status_code}. Response text: {response.text}")
         return None
 
-    st.title("House Canary Web App")
+st.title("House Canary Web App")
 
 address = st.text_input("Enter the address:")
 zipcode = st.text_input("Enter the zipcode:")
