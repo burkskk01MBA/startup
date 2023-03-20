@@ -14,3 +14,18 @@ def get_house_data(address, zipcode, api_key, api_secret):
         return response.json()
     else:
         return None
+
+    st.title("House Canary Web App")
+
+address = st.text_input("Enter the address:")
+zipcode = st.text_input("Enter the zipcode:")
+
+api_key = "test_QXKKXWIHFL71J1D524Z1"
+api_secret = "xVRYZEOZqBmheOYmFJsFDphFd6vFTRGL"
+
+if st.button("Fetch Data"):
+    house_data = get_house_data(address, zipcode, api_key, api_secret)
+    if house_data:
+        st.write(house_data)
+    else:
+        st.error("Failed to fetch data. Please try again.")
