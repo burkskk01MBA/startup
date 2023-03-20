@@ -23,8 +23,8 @@ def display_house_data(house_data):
         # Display address
         st.subheader("Address")
         property_data = house_data[0]['property/details']['result']['property']
-        address_data = property_data['address']
-        st.markdown(f"{address_data['line1']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
+        address_data = house_data[0]['address_info']
+        st.markdown(f"{address_data['address']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
 
         # Display property details in columns
         col1, col2 = st.columns(2)
