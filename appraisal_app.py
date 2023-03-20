@@ -22,33 +22,36 @@ def display_house_data(house_data):
     try:
         # Display address
         st.subheader("Address")
-        st.markdown(f"{house_data['property']['address']['line1']}, {house_data['property']['address']['city']}, {house_data['property']['address']['state']} {house_data['property']['address']['zipcode']}")
+        property_data = house_data['result']['property']
+        address_data = property_data['address']
+        st.markdown(f"{address_data['line1']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
 
         # Display property details in columns
         col1, col2 = st.columns(2)
 
         with col1:
             st.subheader("Property Type")
-            st.write(house_data['property']['property_type'])
+            st.write(property_data['property_type'])
 
             st.subheader("Bedrooms")
-            st.write(house_data['property'].get('bedrooms', 'N/A'))
+            st.write(property_data.get('bedrooms', 'N/A'))
 
             st.subheader("Bathrooms")
-            st.write(house_data['property'].get('bathrooms', 'N/A'))
+            st.write(property_data.get('bathrooms', 'N/A'))
 
         with col2:
             st.subheader("Year Built")
-            st.write(house_data['property']['year_built'])
+            st.write(property_data['year_built'])
 
             st.subheader("Living Area (sq.ft)")
-            st.write(house_data['property'].get('living_area', 'N/A'))
+            st.write(property_data.get('living_area', 'N/A'))
 
             st.subheader("Lot Area (sq.ft)")
-            st.write(house_data['property'].get('lot_area', 'N/A'))
+            st.write(property_data.get('lot_area', 'N/A'))
 
     except KeyError as e:
         st.error(f"Failed to display data. Missing field: {e}")
+
 
 st.title("House Canary Web App")
 
