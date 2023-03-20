@@ -11,6 +11,7 @@ def get_house_data(address, zip_code, api_key, api_secret):
     headers = {"Authorization": f"Basic {auth_base64}"}
     response = requests.get(url, headers=headers)
     response_json = response.json()
+    st.write(response_json)  # Display the entire API response
     return response_json["property/details"][0]["property"]
 
 
