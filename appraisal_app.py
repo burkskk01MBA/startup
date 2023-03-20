@@ -1,8 +1,13 @@
-import streamlit as st
 import requests
 import base64
+import streamlit as st
+import pandas as pd
 
-# Function to fetch data from House Canary API
+# Get HouseCanary API credentials
+api_key = "test_QXKKXWIHFL71J1D524Z1"
+api_secret = "xVRYZEOZqBmheOYmFJsFDphFd6vFTRGL"
+
+# Define function to fetch data from HouseCanary API
 def get_house_data(address, zipcode, api_key, api_secret):
     url = f"https://api.housecanary.com/v2/property/details?address={address}&zipcode={zipcode}"
     headers = {
@@ -11,78 +16,44 @@ def get_house_data(address, zipcode, api_key, api_secret):
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
+        # Display the structure of the JSON object
+        print(pd.json_normalize(response.json()))
+
+        # Return the property details
         return response.json()["property/details"]["result"]
     else:
         st.error("Failed to fetch data. Please try again.")
         return None
 
-# Function to display data
+# Define function to display house data
 def display_house_data(house_data):
-    st.header("Property Details")
-
-    try:
-        # Display address
-        st.subheader("Address")
-        property_data = house_data['property']
-        address_data = house_data['address_info']
-        st.markdown(f"{address_data['address']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
-
-        # Display property details in columns
-        col1, col2 = st.columns(2)
-
-        with col1:
-            st.subheader("Property Type")
-            st.write(property_data['property_type'])
-
-            st.subheader("Bedrooms")
-            st.write(property_data.get('number_of_bedrooms', 'N/A'))
-
-            st.subheader("Bathrooms")
-            st.write(property_data.get('total_bath_count', 'N/A'))
-
-            st.subheader("Year Built")
-            st.write(property_data.get('year_built', 'N/A'))
-
-        with col2:
-            st.subheader("Living Area (sq.ft)")
-            st.write(property_data.get('building_area_sq_ft', 'N/A'))
-
-            st.subheader("Lot Area (sq.ft)")
-            st.write(property_data.get('site_area_acres', 'N/A'))
-
-            st.subheader("Assessed Value")
-            st.write(property_data.get('assessed_value', 'N/A'))
-
-    except KeyError as e:
-        st.error(f"Failed to display data. Missing field: {e}")
-
+    property_data = house_data['property/details']['result']['property']
+    assessment_data = house_data['property/details']['result']['assessment']
+    
+    st.subheader("Property Details")
+    st.markdown(f"**Address**: {property_data['address']['line1']}, {property_data['address']['city']}, {property_data['address']['state']} {property_data['address']['zipcode']}")
+    st.write(f"**Built Year**: {property_data['year_built']}")
+    st.write(f"**Building Area**: {property_data['building_area_sq_ft']} sq. ft.")
+    st.write(f"**Site Area**: {property_data['site_area_acres']} acres")
+    st.write(f"**Building Quality Score**: {property_data['building_quality_score']}")
+    st.write(f"**Assessed Value**: {assessment_data['total_assessed_value']}")
+    st.write(f"**Tax Amount**: {assessment_data['tax_amount']}")
+    
+# Define the Streamlit app
 def app():
-    st.title("Home Equalizer Property Details")
-
-    # Add a sidebar for user input
-    st.sidebar.header("Input Property Information")
-
-    address = st.sidebar.text_input("Address", "123 Main St")
-    zipcode = st.sidebar.text_input("Zipcode", "12345")
-
-    api_key = "test_QXKKXWIHFL71J1D524Z1"
-    api_secret = "xVRYZEOZqBmheOYmFJsFDphFd6vFTRGL"
-
-    fetch_button = st.sidebar.button("Fetch Property Details")
-
-    if fetch_button:
-        # Fetch data
+    st.set_page_config(page_title="HouseCanary Appraisal", page_icon=":house:")
+    st.title("HouseCanary Appraisal")
+    st.markdown("Enter the address and zipcode of the property to get an appraisal.")
+    
+    # Get user input
+    address = st.text_input("Address")
+    zipcode = st.text_input("Zipcode")
+    
+    # Fetch data from HouseCanary API
+    if st.button("Get Appraisal"):
         house_data = get_house_data(address, zipcode, api_key, api_secret)
-
-        if house_data:
+        if house_data is not None:
             display_house_data(house_data)
-
-    # Add a footer
-    st.markdown("---")
-    st.markdown("This web app is using data from the House Canary API. For more information, please visit their [website](https://www.housecanary.com/).")
-
+        
 if __name__ == "__main__":
     app()
-
-    
-   
