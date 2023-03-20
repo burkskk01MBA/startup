@@ -17,18 +17,15 @@ def app():
     api_key = "test_QXKKXWIHFL71J1D524Z1"
     api_secret = "xVRYZEOZqBmheOYmFJsFDphFd6vFTRGL"
 
-    st.sidebar.button("Fetch Property Details")
+    fetch_button = st.sidebar.button("Fetch Property Details")
 
-    # Fetch data
-    house_data = get_house_data(address, zipcode, api_key, api_secret)
+    if fetch_button:
+        # Fetch data
+        house_data = get_house_data(address, zipcode, api_key, api_secret)
 
-    if house_data:
-        display_house_data(house_data)
+        if house_data:
+            display_house_data(house_data)
 
     # Add a footer
     st.markdown("---")
     st.markdown("This web app is using data from the House Canary API. For more information, please visit their [website](https://www.housecanary.com/).")
-
-if __name__ == "__main__":
-    app()
-
