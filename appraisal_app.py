@@ -7,7 +7,7 @@ def get_house_data(address, zip_code, api_key, api_secret):
     url = f"https://api.housecanary.com/v2/property/details?address={address}&zipcode={zip_code}"
     headers = {"HouseCanary-Api-Key": api_key, "HouseCanary-Api-Secret": api_secret}
     response = requests.get(url, headers=headers)
-    return response.json()["property/details"]["result"]
+    return response.json()["property/details"][0]["result"]
 
 
 # Main Streamlit app code
@@ -27,5 +27,5 @@ if st.button("Get Property Details"):
     try:
         house_data = get_house_data(address, zip_code, api_key, api_secret)
         st.write(house_data)
-    except:
-        st.write("Error: Could not retrieve property details.")
+    except Exception as e:
+        st.write(f"Error: Could not retrieve property details. {str(e)}")
