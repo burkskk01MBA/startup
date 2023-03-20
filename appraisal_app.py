@@ -19,32 +19,36 @@ def get_house_data(address, zipcode, api_key, api_secret):
 def display_house_data(house_data):
     st.header("Property Details")
 
-    # Display address
-    st.subheader("Address")
-    st.markdown(f"{house_data['property']['address']['line1']}, {house_data['property']['address']['city']}, {house_data['property']['address']['state']} {house_data['property']['address']['zipcode']}")
+    try:
+        # Display address
+        st.subheader("Address")
+        st.markdown(f"{house_data['property']['address']['line1']}, {house_data['property']['address']['city']}, {house_data['property']['address']['state']} {house_data['property']['address']['zipcode']}")
 
-    # Display property details in columns
-    col1, col2 = st.columns(2)
+        # Display property details in columns
+        col1, col2 = st.columns(2)
 
-    with col1:
-        st.subheader("Property Type")
-        st.write(house_data['property']['property_type'])
+        with col1:
+            st.subheader("Property Type")
+            st.write(house_data['property']['property_type'])
 
-        st.subheader("Bedrooms")
-        st.write(house_data['property']['bedrooms'])
+            st.subheader("Bedrooms")
+            st.write(house_data['property']['bedrooms'])
 
-        st.subheader("Bathrooms")
-        st.write(house_data['property']['bathrooms'])
+            st.subheader("Bathrooms")
+            st.write(house_data['property']['bathrooms'])
 
-    with col2:
-        st.subheader("Year Built")
-        st.write(house_data['property']['year_built'])
+        with col2:
+            st.subheader("Year Built")
+            st.write(house_data['property']['year_built'])
 
-        st.subheader("Living Area (sq.ft)")
-        st.write(house_data['property']['living_area'])
+            st.subheader("Living Area (sq.ft)")
+            st.write(house_data['property']['living_area'])
 
-        st.subheader("Lot Area (sq.ft)")
-        st.write(house_data['property']['lot_area'])
+            st.subheader("Lot Area (sq.ft)")
+            st.write(house_data['property']['lot_area'])
+
+    except KeyError as e:
+        st.error(f"Failed to display data. Missing field: {e}")
 
 st.title("House Canary Web App")
 
