@@ -71,8 +71,8 @@ def app():
     address = st.sidebar.text_input("Address", "123 Main St")
     zipcode = st.sidebar.text_input("Zipcode", "12345")
 
-    api_key = "test_QXKKXWIHFL71J1D524Z1"
-    api_secret = "xVRYZEOZqBmheOYmFJsFDphFd6vFTRGL"
+    api_key = "test_AQ5GSA1A96947PDOJJXE"
+    api_secret = "zxkVIQ9O3g3YkFVEZTOIs4TvCmb00kd3"
 
     fetch_button = st.sidebar.button("Fetch Property Details")
 
