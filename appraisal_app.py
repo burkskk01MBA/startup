@@ -29,3 +29,4 @@ def app():
     # Add a footer
     st.markdown("---")
     st.markdown("This web app is using data from the House Canary API. For more information, please visit their [website](https://www.housecanary.com/).")
+    
