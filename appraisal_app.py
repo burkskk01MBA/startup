@@ -24,8 +24,8 @@ def display_house_data(house_data):
         # Display address
         st.subheader("Address")
         property_data = house_data['property']
-        address_data = house_data['address_info']
-        st.markdown(f"{address_data['address']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
+        address_data = house_data['address']
+        st.markdown(f"{address_data['line1']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
 
         # Display property details in columns
         col1, col2 = st.columns(2)
@@ -35,28 +35,33 @@ def display_house_data(house_data):
             st.write(property_data['property_type'])
 
             st.subheader("Bedrooms")
-            st.write(property_data.get('number_of_bedrooms', 'N/A'))
+            st.write(property_data.get('bedrooms', 'N/A'))
 
             st.subheader("Bathrooms")
-            st.write(property_data.get('total_bath_count', 'N/A'))
+            st.write(property_data.get('bathrooms', 'N/A'))
 
             st.subheader("Year Built")
             st.write(property_data.get('year_built', 'N/A'))
 
-        with col2:
             st.subheader("Living Area (sq.ft)")
-            st.write(property_data.get('building_area_sq_ft', 'N/A'))
+            st.write(property_data.get('sqft', 'N/A'))
 
+        with col2:
             st.subheader("Lot Area (sq.ft)")
-            st.write(property_data.get('site_area_acres', 'N/A'))
+            st.write(property_data.get('lot_size', 'N/A'))
 
             st.subheader("Assessed Value")
-            st.write(property_data.get('assessed_value', 'N/A'))
+            st.write(property_data.get('value', 'N/A'))
+
+            st.subheader("Tax Assessment")
+            st.write(property_data.get('tax_assessment', 'N/A'))
 
     except KeyError as e:
         st.error(f"Failed to display data. Missing field: {e}")
 
 def app():
+    st.set_page_config(page_title="House Canary Property Details", page_icon=":house_with_garden:")
+
     st.title("House Canary Property Details")
 
     # Add a sidebar for user input
