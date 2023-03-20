@@ -10,14 +10,8 @@ def get_house_data(address, zipcode, api_key, api_secret):
     }
     response = requests.get(url, headers=headers)
 
-    print(response.json())
-
     if response.status_code == 200:
-        try:
-            return response.json()["property/details"]["result"]
-        except KeyError as e:
-            st.error(f"Failed to display data. Missing field: {e}")
-            return None
+        return response.json()["property/details"]["result"]
     else:
         st.error("Failed to fetch data. Please try again.")
         return None
