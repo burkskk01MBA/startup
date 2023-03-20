@@ -57,7 +57,7 @@ def display_house_data(house_data):
         st.error(f"Failed to display data. Missing field: {e}")
 
 def app():
-    st.title("House Canary Property Details")
+    st.title("Home Equalizer Property Details")
 
     # Add a sidebar for user input
     st.sidebar.header("Input Property Information")
