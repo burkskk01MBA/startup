@@ -1,41 +1,46 @@
-import streamlit as st
 import requests
+import streamlit as st
 
-def get_house_data(address, zipcode, api_key, api_secret):
-    endpoint = "https://api.housecanary.com/v2/property/details"
-    payload = {
-        "address": address,
-        "zipcode": zipcode
-    }
-    headers = {
-        "X-API-KEY": api_key,
-        "X-API-SECRET": api_secret,
-        "Content-Type": "application/json"
-    }
-    response = requests.post(endpoint, json=payload, headers=headers)
+# HouseCanary API credentials
+api_key = "test_ZHR10MHG9YVB19SPIKG9"
+api_secret = "vDy4m18y7oNi9u3zFFXqk4fJmSV8X6GW"
+
+# HouseCanary endpoint for getting property details
+url = "https://api.housecanary.com/v2/property/details"
+
+# Function to get property details for the given address using HouseCanary API
+def get_house_data(address, api_key, api_secret):
+    # Define headers and query parameters for the API request
+    headers = {"Authorization": f"Basic {api_key}:{api_secret}"}
+    params = {"address": address, "zipcode": "", "state": "", "city": ""}
+
+    # Send a GET request to the HouseCanary API
+    response = requests.get(url, headers=headers, params=params)
+
+    # Parse the JSON response and return the property details
     return response.json()["property/details"]["result"]
 
+# Streamlit app
 def app():
-    st.title("Real Estate Appraisal")
+    # Set the page title and layout
+    st.set_page_config(page_title="HouseCanary Property Details", page_icon=":house_with_garden:")
+    
+    # Set the app title and subtitle
+    st.title("HouseCanary Property Details")
+    st.subheader("Enter the address to get the property details:")
+    
+    # Get the user's input address
+    address = st.text_input("Address", value="", max_chars=100)
 
-    st.markdown("""
-    This web app fetches a real estate appraisal using HouseCanary's API.
-    """)
+    # Display the property details when the user submits the address
+    if st.button("Submit"):
+        # Call the function to get the property details
+        house_data = get_house_data(address, api_key, api_secret)
 
-    address = st.text_input("Enter the address of the property")
-    zipcode = st.text_input("Enter the zipcode of the property")
+        # Display the property details in a table
+        st.write("## Property Details")
+        st.table(house_data)
 
-    if st.button("Get appraisal"):
-        api_key = "test_AQ5GSA1A96947PDOJJXE"
-        api_secret = "zxkVIQ9O3g3YkFVEZTOIs4TvCmb00kd3"
-        house_data = get_house_data(address, zipcode, api_key, api_secret)
-
-        st.write(f"Property value: {house_data['avm']['value']}")
-        st.write(f"Last sale date: {house_data['lastSaleDate']}")
-        st.write(f"Last sale amount: {house_data['lastSaleAmount']}")
-        st.write(f"Year built: {house_data['yearBuilt']}")
-        st.write(f"Number of bedrooms: {house_data['bedrooms']}")
-        st.write(f"Number of bathrooms: {house_data['bathrooms']}")
-
+# Run the app
 if __name__ == "__main__":
     app()
