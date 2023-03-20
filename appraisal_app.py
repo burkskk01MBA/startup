@@ -11,15 +11,9 @@ def get_house_data(address, zipcode, api_key, api_secret):
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
-        try:
-            return response.json()["property/details"]["result"]
-        except KeyError:
-            st.error("Failed to fetch data. Please try again.")
-            st.write(response.json())
-            return None
+        return response.json()["property/details"]["result"]
     else:
         st.error("Failed to fetch data. Please try again.")
-        st.write(response.json())
         return None
 
 # Function to display data
@@ -85,8 +79,7 @@ def app():
 
     # Add a footer
     st.markdown("---")
-    st.markdown("This web app is using data from the House Canary API. For more information, please visit their")
+    st.markdown("This web app is using data from the House Canary API. For more information, please visit their [website](https://www.housecanary.com/).")
 
-    
 if __name__ == "__main__":
     app()
