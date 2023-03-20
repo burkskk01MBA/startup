@@ -10,8 +10,15 @@ def get_house_data(address, zipcode, api_key, api_secret):
     }
     response = requests.get(url, headers=headers)
 
+    print(response.json())
+
     if response.status_code == 200:
-        return response.json()["property/details"]["result"]
+        result = response.json().get("property/details", {}).get("result")
+        if result is not None:
+            return result
+        else:
+            st.error("Failed to fetch data. Please try again.")
+            return None
     else:
         st.error("Failed to fetch data. Please try again.")
         return None
@@ -23,11 +30,11 @@ def display_house_data(house_data):
     try:
         # Display address
         st.subheader("Address")
-        property_data = house_data['property']
         address_data = house_data['address_info']
         st.markdown(f"{address_data['address']}, {address_data['city']}, {address_data['state']} {address_data['zipcode']}")
 
         # Display property details in columns
+        property_data = house_data['property']
         col1, col2 = st.columns(2)
 
         with col1:
@@ -79,8 +86,4 @@ def app():
 
     # Add a footer
     st.markdown("---")
-    st.markdown("This web app is using data from the House Canary API. For more information, please visit their [website](https://www.housecanary.com/).")
-
-if __name__ == "__main__":
-    app()
-    
+    st.markdown("This web app is using data from the
