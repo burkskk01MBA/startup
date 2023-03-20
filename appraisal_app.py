@@ -86,3 +86,7 @@ def app():
     # Add a footer
     st.markdown("---")
     st.markdown("This web app is using data from the House Canary API. For more information, please visit their")
+
+    
+if __name__ == "__main__":
+    app()
