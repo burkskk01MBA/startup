@@ -11,7 +11,7 @@ def get_house_data(address, zip_code, api_key, api_secret):
     headers = {"Authorization": f"Basic {auth_base64}"}
     response = requests.get(url, headers=headers)
     response_json = response.json()
-    return response_json["property/details"][0]["result"]["bundle"]
+    return response_json["property/details"][0]["property"]
 
 
 def display_house_data(house_data):
@@ -21,11 +21,11 @@ def display_house_data(house_data):
     st.write("State:", house_data["address"]["state"])
     st.write("Zip Code:", house_data["address"]["zip"])
     st.write("County:", house_data["address"]["county"])
-    st.write("Year Built:", house_data["property"]["year_built"])
-    st.write("Living Area (sq ft):", house_data["property"]["living_area_sq_ft"])
-    st.write("Bedrooms:", house_data["property"]["bedrooms"])
-    st.write("Bathrooms:", house_data["property"]["bathrooms"])
-    st.write("Lot Size (sq ft):", house_data["property"]["lot_sq_ft"])
+    st.write("Year Built:", house_data["year_built"]["value"])
+    st.write("Living Area (sq ft):", house_data["living_area_sq_ft"]["value"])
+    st.write("Bedrooms:", house_data["bedrooms"]["value"])
+    st.write("Bathrooms:", house_data["bathrooms"]["value"])
+    st.write("Lot Size (sq ft):", house_data["lot_sq_ft"]["value"])
 
 
 # Main Streamlit app code
