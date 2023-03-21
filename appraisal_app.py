@@ -35,3 +35,4 @@ if st.button("Get Property Details"):
         st.write(house_data)
     except Exception as e:
         st.write(f"Error: Could not retrieve property details. {str(e)}")
+        
